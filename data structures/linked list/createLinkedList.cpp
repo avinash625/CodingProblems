@@ -13,8 +13,10 @@ Node *createNode(int data){
 //method to create a linked list 
 Node *createLinkedList(){
 	int n;
+	cout << "Enter the value of N(number of nodes)\n" << endl;
 	cin >> n;
 	int *values = (int *)malloc(sizeof(int)*n);
+	cout << "Enter the values of Nodes" << endl;
 	for (int iter = 0; iter < n; iter++){
 		scanf("%d", &values[iter]);
 	}
@@ -29,6 +31,7 @@ Node *createLinkedList(){
 }
 
 void printLinkedList(Node *head){
+	cout << "the List is :";
 	Node *temp = head;
 	while (temp){
 		printf("%d ", temp->data);

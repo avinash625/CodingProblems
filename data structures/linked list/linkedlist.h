@@ -16,3 +16,4 @@ Node *createNode(int data);
 void printLinkedList(Node *head);
 int medianValue(Node *head);
 Node *medianNode(Node *head);
+Node *Kth_Node_from_last(Node *head,int n);
