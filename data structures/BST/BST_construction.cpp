@@ -1,6 +1,7 @@
 #include"BST.h"
 #include<stdio.h>
 #include<stdlib.h>
+#include<math.h>
 
 using namespace std;
 
@@ -11,6 +12,22 @@ void printInorder(Node *root) {
 	printInorder(root->left);
 	printf("%d ", root->data);
 	printInorder(root->right);
+}
+
+void printPreorder(Node *root){
+	if (!root)
+		return;
+	printf("%d ", root->data);
+	printPreorder(root->left);
+	printPreorder(root->right);
+}
+
+void printPostorder(Node *root){
+	if (!root)
+		return;
+	printPostorder(root->left);
+	printPostorder(root->right);
+	printf("%d ", root->data);
 }
 
 Node * getNode(Node *root, int data)
@@ -96,7 +113,15 @@ Node *deletion(Node *root, int data) {
 	return root;
 }
 
-
+int max(int a, int b){
+	return (a > b) ? a : b;
+}
+int height(Node *root){
+	if (!root)
+		return 0;
+	else
+		return max(height(root->left), height(root->right)) + 1;
+}
 
 void main(void) {
 	Node *root = NULL;
@@ -105,8 +130,19 @@ void main(void) {
 	root = constructTree(values, n);
 	cout << "the nodes are ";
 	printInorder(root);
-	deletion(root, 15);
+	/*deletion(root, 15);
 	cout << "\nthe nodes are ";
-	printInorder(root);
+	printInorder(root);*/
+	/*if (isBst(root)){
+		printf("True");
+	}
+	else{
+		printf("False");
+	}*/
+
+
+	printf("the level order traversal is \n");
+	levelOrder(root);
+
 
 }
