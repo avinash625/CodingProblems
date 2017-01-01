@@ -1,6 +1,5 @@
 problems statements:
 
-Questions:
 1:Collect Apples:
 		Given a M*N matrix, where every cell represents the quantity of apples present at that location.Find the maximum number of apples
 		that can be collected while traversing through the grid(only down and right are allowed).The initial position is arr[0][0] and the 
