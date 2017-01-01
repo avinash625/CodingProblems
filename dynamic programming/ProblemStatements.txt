@@ -1,0 +1,19 @@
+problems statements:
+
+1:Collect Apples:
+		Given a M*N matrix, where every cell represents the quantity of apples present at that location.Find the maximum number of apples
+		that can be collected while traversing through the grid(only down and right are allowed).The initial position is arr[0][0] and the 
+		destination is the last element of last row and last column;
+		
+2:longest common subsequence:
+		Given two strings, find the longest common subsequence between two strings.A longest common subsequence can be defined as a sequence 
+		of characters(need not be continuous) that are present in both the strings.
+		
+3:longest common substring:
+		Given two strings, find the longest common substring of both the strings.A longest common substring can be defined as the substring 
+		present in both the strings but of the maximum length.
+		
+4:longest increasing subsequence:
+		Given two integer arrays, find the longest common subsequence,An increasing subsequence can be considered as a sequence which (need
+		not be continuous, but has to be in increasing order.for example consider 1,6,2,0, 4,3 ....etc. 1,2,3 or 1,2,4 or 0,3 can be considered
+		as an increasing sequence), Find the sequence of longest length.
