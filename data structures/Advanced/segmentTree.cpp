@@ -1,80 +1,101 @@
 #include<stdio.h>
-#include<stdlib.h>
 #include<iostream>
+#include<vector>
 #include<algorithm>
-#include<map>
-
+#include<cstdint>
+#include<stdlib.h>
+#include<limits.h>
 using namespace std;
-int min(int a, int b){
-	if (a > b)
-		return b;
-	return a;
-}
 
-int next2Power(int n){
+int getNext2power(int n) {
 	int count = 0;
-	while (n){
+	while (n) {
 		count++;
 		n = n >> 1;
 	}
-	return 1 << (count);
+	return (1 << count);
 }
 
-int rangeMinimumQuery(int *segTree, int qlow, int qhigh, int low, int high, int pos){
-	if (qlow <= low && high <= qhigh){
+int queryRMQ(int *segTree, int start, int end, int qstart, int qend,int pos) {
+	if (qend<start || qstart > end) {
+		return INT_MIN;
+	}
+	else if (qstart <= start && end <= qend) {
 		return segTree[pos];
 	}
-	else if (qlow > high || qhigh < low){
-		return INT_MAX;
-	}
 	else {
-		int mid = (low + high) / 2;
-		return min(rangeMinimumQuery(segTree, qlow, qhigh, low, mid, 2 * pos + 1), rangeMinimumQuery(segTree, qlow, qhigh, mid+1, high, 2 * pos + 2));
+		int mid = (start + end) / 2;
+		return max(queryRMQ(segTree, start, mid, qstart, qend, 2 * pos + 1), queryRMQ(segTree, mid + 1, end, qstart, qend, 2 * pos + 2));
 	}
 }
 
-void constructTree(int *values, int *segTree, int low, int high, int pos){
-	if (high == low){
-		segTree[pos] = values[low];
+void constructTree(int *values, int *segTree, int start, int end, int currentNode) {
+	if (start == end) {
+		segTree[currentNode] = values[start];
 		return;
 	}
-	int mid = ((low + high) / 2);
-	constructTree(values, segTree, low, mid, (2 * pos) + 1);
-	constructTree(values, segTree, mid+1, high, (2 * pos) + 2);
-	segTree[pos] = min(segTree[2 * pos + 1], segTree[2 * pos + 2]);
+	int middle = (start + end) / 2;
+	constructTree(values, segTree, start, middle, 2 * currentNode + 1);
+	constructTree(values, segTree, middle + 1, end, 2 * currentNode + 2);
+	segTree[currentNode] = max(segTree[2 * currentNode + 1], segTree[2 * currentNode + 2]);
 }
 
-void main(void){
+void updateValue(int *values, int *segTree, int start, int end, int currentNode,int newValue,int position) {
+	if (end == start && start == position) {
+		segTree[currentNode] = newValue;
+		values[position] = newValue;
+		return;
+	}
+	int mid = (start + end) / 2;
+	if(start <= position && position <= mid){
+		updateValue(values, segTree, start, mid, 2 * currentNode + 1, newValue,position);
+	}
+	else {
+		updateValue(values, segTree, mid + 1, end, 2 * currentNode + 2, newValue, position);
+	}
+	segTree[currentNode] = max(segTree[2 * currentNode + 1], segTree[2 * currentNode + 2]);
+}
+int main(void) {
 	int n;
-	cout << "Enter the number of values" << endl;
 	cin >> n;
-	int *segTree;
 	int *values = (int *)malloc(sizeof(int)*n);
-	cout << "Enter the values \n";
-	for (int iter = 0; iter < n; iter++){
-		scanf("%d", &values[iter]);
+	for (int iter = 0;iter < n;iter++)
+		cin >> values[iter];
+	int *seg;
+	int newN;
+	if (n & (n - 1) == 0) {
+		newN = 2 * n - 1;
+		seg = (int *)malloc(sizeof(int)*(n * 2 - 1));
+		for (int iter = 0;iter< n * 2 - 1;iter++)
+			seg[iter] = INT_MIN;
 	}
-	if (n&(n - 1) == 0){
-		segTree = (int *)malloc(sizeof(int)*(n*2 - 1));
-		for (int iter = 0; iter < n * 2 - 1; iter++){
-			segTree[iter] = INT_MAX;
+	else {
+		newN = getNext2power(n);
+		seg = (int *)malloc(sizeof(int)*(newN * 2 - 1));
+		for (int iter = 0;iter < newN;iter++)
+			seg[iter] = INT_MIN;
+	}
+	constructTree(values, seg, 0, n-1, 0);
+	/*for (int iter = 0;iter < newN;iter++) {
+		cout << seg[iter] << " ";
+	}*/
+	int query, position, value;
+	cin >> query;
+	char q;
+	while (query--) {
+		int l, r;
+		cout << "Enter the query type" << endl;
+		cin >> q;
+		if (q == 'r') {
+			cin >> l >> r;
+			cout << queryRMQ(seg, 0, n - 1, l - 1, r - 1, 0) << endl;;
 		}
-	}
-	else{
-		int modifiedN =  next2Power(n);
-		segTree = (int *)malloc(sizeof(int)*(modifiedN * 2 - 1));
-		for (int iter = 0; iter < modifiedN*2-1; iter++){
-			segTree[iter] = INT_MAX;
+		else if (q=='u'){
+			cin >> position;
+			cin >> value;
+			updateValue(values, seg, 0, n - 1, 0, value, position-1);
 		}
+		
 	}
-	int q;
-	constructTree(values, segTree, 0, n, 0);
-	cout << "enter the number of queries" << endl;
-	int a, b;
-	cin >> q;
-	for (int iter = 0; iter < q; iter++){
-		cout << "enter the range(use zero based index)" << endl;
-		cin >> a >> b;
-		printf("the minimum value in the range %d to %d is %d\n",a, b, rangeMinimumQuery(segTree, a, b, 0, n, 0));
-	}
+	return 0;
 }
