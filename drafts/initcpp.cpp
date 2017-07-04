@@ -10,7 +10,7 @@
 #include<math.h>
 #include<limits.h>
 #include<cstdint>
-#include<string>
+#include<string.h>
 #include<map>
 #include<unordered_map>
 #include<set>
@@ -38,9 +38,7 @@ using namespace std;
 #define all(a) (a.begin(),a.end())
 #define sort(a) sort(a.begin(),a.end())
 #define log(text) cout<<"log:"<<" "<<text<<endl
-#define for0n(n) for(int iter = 0;iter<n;iter++)
-#define for1(n) for(int iter = 1 ;iter<n;iter++)
-#define forn(n) for(int iter = n-1;iter>=0;iter--)
+#define forabc(a,b,c) for(int iter = (int)a; iter< (int)b;iter+=(int)c)
 #define clr(a) memset((a),0,sizeof(a))
 #define fill(a,value) memset((a), value, sizeof(a))
 #define read(a,n) for(int iter = 0;iter< n;iter++){cin>>a[iter];}
@@ -53,11 +51,35 @@ template <class templateData> templateData minab(templateData a, templateData b)
 
 
 int main(void) {
-	int n;
-    cin>>n;
-    vint a(n);
-    read(a,n);
-    sort(a);
-    cout<<minab(abs(a[0]-a[n-2]), abs(a[1]-a[n-1]));
+	int t;
+	cin>>t;
+	while(t--){
+	    char  input[101];
+	    cin>>input;
+	    stack<char> st;
+	    forabc(0,strlen(input),1){
+	        if(st.empty()){
+	            st.push(input[iter]);
+	        }
+	        else if(st.top() == '(' && input[iter] == ')'){
+	            st.pop();
+	        }
+	        else if(st.top() == '{' && input[iter] == '}'){
+	            st.pop();
+	        }
+	        else if(st.top() == '[' && input[iter] == ']'){
+	            st.pop();
+	        }
+	        else{
+	            st.push(input[iter]);
+	        }
+	    }
+	    if(st.empty()){
+	        cout<<"balanced"<<endl;
+	    }
+	    else{
+	        cout<<"not balanced"<<endl;
+	    }
+	}
     return 0;
 }
