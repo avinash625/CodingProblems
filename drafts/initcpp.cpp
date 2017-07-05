@@ -52,34 +52,52 @@ template <class templateData> templateData minab(templateData a, templateData b)
 
 int main(void) {
 	int t;
-	cin>>t;
-	while(t--){
-	    char  input[101];
-	    cin>>input;
-	    stack<char> st;
-	    forabc(0,strlen(input),1){
-	        if(st.empty()){
-	            st.push(input[iter]);
-	        }
-	        else if(st.top() == '(' && input[iter] == ')'){
-	            st.pop();
-	        }
-	        else if(st.top() == '{' && input[iter] == '}'){
-	            st.pop();
-	        }
-	        else if(st.top() == '[' && input[iter] == ']'){
-	            st.pop();
-	        }
-	        else{
-	            st.push(input[iter]);
-	        }
-	    }
-	    if(st.empty()){
-	        cout<<"balanced"<<endl;
-	    }
-	    else{
-	        cout<<"not balanced"<<endl;
-	    }
+	cin >> t;
+	while (t--) {
+		int n;
+		cin >> n;
+		vint heights(n);
+		read(heights, n);
+		stack<int> st;
+		ll maxArea = 0, area;
+		int currentindex = 1;
+		st.push(0);
+		forabc(1, n, 1) {
+			if (st.empty() || heights[st.top()] < heights[currentindex]) {
+				st.push(currentindex);
+			}
+			else {
+				while (!st.empty() && heights[currentindex] < heights[st.top()]) {
+					int top = st.top();
+					st.pop();
+					if (st.empty()) {
+						area = (currentindex)*(heights[top]);
+					}
+					else {
+						area = (currentindex - st.top() - 1)*(heights[top]);
+					}
+					if (area > maxArea) {
+						maxArea = area;
+					}
+				}
+				st.push(currentindex);
+			}
+			currentindex++;
+		}
+		while (!st.empty()) {
+			int top = st.top();
+			st.pop();
+			if (st.empty()) {
+				area = (currentindex)*(heights[top]);
+			}
+			else {
+				area = (currentindex - st.top() - 1)*(heights[top]);
+			}
+			if (area > maxArea) {
+				maxArea = area;
+			}
+		}
+		cout << maxArea << endl;
 	}
-    return 0;
+	return 0;
 }
