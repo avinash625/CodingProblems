@@ -10,4 +10,8 @@ class Solution {
         }
         return finalIpv4.toString();
     }
+
+    public String defangIPaddr_1(String address) {
+        return address.replace(".","[.]");
+    }
 }
