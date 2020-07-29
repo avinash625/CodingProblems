@@ -15,4 +15,18 @@ class Solution {
         }
         return jewels;
     }
+
+    public int numJewelsInStones_1(String J, String S) {
+        HashMap<Character, Boolean> map = new HashMap<Character, Boolean>();
+        for(char ch : J.toCharArray()){
+            map.put(ch,true);
+        }
+        int jewels = 0;
+        for(char ch: S.toCharArray()){
+            if(map.containsKey(ch)){
+                jewels = jewels +1;
+            }
+        }
+        return jewels;
+    }
 }
