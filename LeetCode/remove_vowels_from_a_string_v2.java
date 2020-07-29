@@ -9,4 +9,20 @@ class Solution {
         }
         return sb.toString();
     }
+
+    public String removeVowels_1(String S) {
+        Set<Character> hashSet = new HashSet<Character>();
+        hashSet.add('a');
+        hashSet.add('e');
+        hashSet.add('i');
+        hashSet.add('o');
+        hashSet.add('u');
+        StringBuffer sb = new StringBuffer();
+        for(char ch: S.toCharArray()){
+            if(!hashSet.contains(ch)){
+                sb.append(ch);
+            }
+        }
+        return sb.toString();
+    }
 }
