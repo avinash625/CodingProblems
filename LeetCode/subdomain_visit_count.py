@@ -1,5 +1,5 @@
 class Solution:
-    def subdomainVisits(self, cpdomains: List[str]) -> List[str]:
+    def subdomainVisits(self, cpdomains):
         result = []
         d = {}
         for domain in cpdomains:
