@@ -14,3 +14,22 @@ class Solution {
         return arr;
     }
 }
+
+class Solution {
+    public int[] replaceElements(int[] arr) {
+        int greatest = -1;
+        int[] result = new int[arr.length];
+        for(int iter = arr.length-1; iter>= 0; iter--){
+            if(greatest == -1){
+                greatest = arr[iter];
+                result[iter] = -1;
+            }else{
+                result[iter] = greatest;
+                if(arr[iter] > greatest){
+                    greatest = arr[iter];
+                }
+            }
+        }
+        return result;
+    }
+}
