@@ -1,21 +1,20 @@
 class Solution {
     public int[] sumZero(int n) {
         int[] result = new int[n];
-        if(n == 1) return result;
-        else{
-            if(n %2 == 0){
-                for(int iter = 0; iter< n; iter+= 2){
-                    result[iter] = iter+1;
-                    result[iter+1] = -1 * (iter+1);
-                }
-            }else{
-                result[0] = 0;
-                
-                for(int iter = 1; iter< n; iter+= 2){
-                    result[iter] = iter;
-                    result[iter+1] = -1* iter;
-                }
-            }
+        boolean odd = false;
+        if(n%2 != 0){
+            odd = true;
+            n = n-1;
+        }
+
+        for(int iter= 0; iter< n; ){
+            result[iter] = iter+1;
+            result[iter+1] = (iter+1) * -1;;
+            iter+=2;
+        }
+
+        if(odd){
+            result[n] =  0;
         }
         return result;
     }
